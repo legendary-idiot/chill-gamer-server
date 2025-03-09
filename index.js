@@ -46,11 +46,12 @@ async function run() {
     // await client.close();
   }
 }
-run().catch(console.dir);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the root directory");
 });
+
+run().catch(console.dir);
 
 app.listen(port, () => {
   console.log(`The server is running on port ${port}`);

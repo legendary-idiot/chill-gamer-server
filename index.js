@@ -1,8 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
-require("dotenv").config();
 const port = process.env.PORT || 3000;
 
 // Middlewares
@@ -23,15 +23,19 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
     const database = client.db("reviewsDB");
     const reviewsCollection = database.collection("reviewsCollection");
     // The database to use
+    app.get("/", (req, res) => {
+      res.send("Welcome to the root directory");
+    });
+
     app.get("/reviews", async (req, res) => {
       const reviews = await reviewsCollection.find().toArray();
       res.send(reviews);
@@ -46,10 +50,6 @@ async function run() {
     // await client.close();
   }
 }
-
-app.get("/", (req, res) => {
-  res.send("Welcome to the root directory");
-});
 
 run().catch(console.dir);
 
